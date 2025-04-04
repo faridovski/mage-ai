@@ -18,11 +18,17 @@ RUN \
   unixodbc-dev \
   graphviz \
   # postgres dependencies \
-  postgresql-client \
-  # R
-  r-base && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  postgresql-client 
+
+ENV R_VERSION 4.4.3
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+  
+RUN apt --fix-broken install
+  
+RUN curl -O https://cdn.rstudio.com/r/debian-12/pkgs/r-${R_VERSION}_1_amd64.deb
+RUN  apt-get -y update  
+RUN apt-get -y install ./r-${R_VERSION}_1_amd64.deb
 
 ## R Packages
 RUN \
